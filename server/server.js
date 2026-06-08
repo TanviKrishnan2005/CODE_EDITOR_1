@@ -42,7 +42,13 @@ const rooms = {};
 function detectConcepts(code, language) {
   const concepts = [];
 
-  if (/function\s+\w+|=>/.test(code)) concepts.push("functions");
+  if (
+    /function\s+\w+/.test(code) ||          // JavaScript functions
+    /=>/.test(code) ||                      // Arrow functions
+    /\b\w+\s+\w+\s*\([^)]*\)\s*\{/.test(code) // C++/Java functions
+  ) {
+    concepts.push("functions");
+  }
   if (/\b(for|while)\b/.test(code)) concepts.push("loops");
   if (/\bif\b|\belse\b|switch\s*\(/.test(code)) concepts.push("conditional logic");
   if (/\bclass\s+\w+/.test(code)) concepts.push("classes / object-oriented programming");
