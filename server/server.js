@@ -7,7 +7,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://code-editor-sigma-orpin.vercel.app",
+  "https://code-editor-1-theta.vercel.app/",
 ];
 
 app.use(cors({
