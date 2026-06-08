@@ -7,13 +7,24 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://code-editor-1-theta.vercel.app/",
-];
+  "http://127.0.0.1:5173",
+  "https://code-editor-1-theta.vercel.app",
+  "https://code-editor-sigma-orpin.vercel.app",
+  process.env.CLIENT_ORIGIN,
+].filter(Boolean);
 
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST"]
-}));
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Origin ${origin} is not allowed by CORS`));
+  },
+  methods: ["GET", "POST"],
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json({ limit: "1mb" }));
 
